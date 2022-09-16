@@ -56,3 +56,59 @@ class WinnersRepo:
     async def update(db: Session,winners_data):
         db.merge(winners_data)
         db.commit()
+
+class ProducersRepo:
+
+    async def create(db: Session, producers: schemas.ProducersCreate):
+            db_producers = models.Producers(name=producers.name)
+            db.add(db_producers)
+            db.commit()
+            db.refresh(db_producers)
+            return db_producers
+
+    def fetch_by_id(db: Session,_id:int):
+        return db.query(models.Producers).filter(models.Producers.id == _id).first()
+
+    def fetch_by_name(db: Session,name:str):
+        return db.query(models.Producers).filter(models.Producers.name == name).first()
+
+    def fetch_all(db: Session, skip: int = 0, limit: int = 100):
+        return db.query(models.Producers).offset(skip).limit(limit).all()
+
+    async def delete(db: Session,_id:int):
+        db_producers= db.query(models.Producers).filter_by(id=_id).first()
+        db.delete(db_producers)
+        db.commit()
+
+    async def update(db: Session,producers_data):
+        db.merge(producers_data)
+        db.commit()
+        
+class FilmsProducersRepo:
+
+    async def create(db: Session, filmsproducers: schemas.FilmsProducers):
+            db_filmsproducers = models.FilmsProducers(name=filmsproducers.name)
+            db.add(db_filmsproducers)
+            db.commit()
+            db.refresh(db_filmsproducers)
+            return db_filmsproducers
+
+    def fetch_by_id(db: Session,_id:int):
+        return db.query(models.FilmsProducers).filter(models.FilmsProducers.id == _id).first()
+
+    def fetch_by_name(db: Session,name:str):
+        return db.query(models.FilmsProducers).filter(models.FilmsProducers.name == name).first()
+
+    def fetch_all(db: Session, skip: int = 0, limit: int = 100):
+        return db.query(models.FilmsProducers).offset(skip).limit(limit).all()
+
+    async def delete(db: Session,_id:int):
+        db_filmsproducers= db.query(models.FilmsProducers).filter_by(id=_id).first()
+        db.delete(db_filmsproducers)
+        db.commit()
+
+    async def update(db: Session,filmsproducers_data):
+        db.merge(filmsproducers_data)
+        db.commit()
+
+        
